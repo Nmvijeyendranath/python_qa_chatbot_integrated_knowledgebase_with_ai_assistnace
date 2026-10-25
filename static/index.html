@@ -1,0 +1,2364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PYWISE // Cybernetic Python Knowledge Assistant</title>
+  <meta name="description" content="Ultra-premium cybernetic Python programming assistant powered by Gemini AI and curated retrieval-augmented knowledge base.">
+  
+  <!-- Futuristic Cyberpunk Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CYBERPUNK DESIGN SYSTEM & DESIGN TOKENS
+       ========================================================================== */
+    :root {
+      /* Background Foundations */
+      --obsidian: #07080D;
+      --midnight: #0B1020;
+      --surface-1: #0E1428;
+      --surface-2: #121933;
+      --surface-3: #182245;
+      --surface-glass: rgba(11, 16, 32, 0.85);
+      --surface-glass-card: rgba(14, 20, 40, 0.75);
+
+      /* Cyberpunk Neon Accents */
+      --cyan: #00F5FF;
+      --cyan-bright: #38F8FF;
+      --cyan-dim: rgba(0, 245, 255, 0.12);
+      --cyan-mid: rgba(0, 245, 255, 0.25);
+      --cyan-glow: rgba(0, 245, 255, 0.55);
+      
+      --magenta: #FF2BD6;
+      --magenta-dim: rgba(255, 43, 214, 0.12);
+      --magenta-mid: rgba(255, 43, 214, 0.25);
+      --magenta-glow: rgba(255, 43, 214, 0.55);
+
+      --violet: #8B5CFF;
+      --violet-dim: rgba(139, 92, 255, 0.15);
+      --violet-mid: rgba(139, 92, 255, 0.3);
+      --violet-glow: rgba(139, 92, 255, 0.55);
+
+      --lime: #C6FF00;
+      --lime-dim: rgba(198, 255, 0, 0.12);
+      --lime-glow: rgba(198, 255, 0, 0.55);
+
+      --green-neon: #00FF88;
+      --green-dim: rgba(0, 255, 136, 0.12);
+      --green-glow: rgba(0, 255, 136, 0.5);
+
+      --amber: #FFB300;
+      --amber-dim: rgba(255, 179, 0, 0.12);
+
+      --red-neon: #FF3366;
+      --red-dim: rgba(255, 51, 102, 0.15);
+      --red-glow: rgba(255, 51, 102, 0.55);
+
+      /* Typography & Metallic Details */
+      --chrome: #D8E1F0;
+      --ghost: #F4F7FF;
+      --steel: #858DA3;
+      --steel-dim: #4E566B;
+      --code-bg: #05070D;
+      --code-border: rgba(0, 245, 255, 0.15);
+
+      /* Typography Families */
+      --font-display: 'Orbitron', -apple-system, sans-serif;
+      --font-body: 'Space Grotesk', -apple-system, sans-serif;
+      --font-ui: 'Rajdhani', -apple-system, sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+
+      /* Cyberpunk Clip Paths & Geometry */
+      --clip-chamfer: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      --clip-chamfer-top: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+      --clip-chamfer-bot: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+      --clip-btn: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      --clip-card-sm: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+
+      /* Animation Easing */
+      --ease-cyber: cubic-bezier(0.22, 1, 0.36, 1);
+      --t-fast: 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+      --t-base: 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      --t-slow: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ==========================================================================
+       RESET & BASE FOUNDATION
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--obsidian);
+      color: var(--chrome);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Subtle CRT Scanlines & Cyber Ambient Lighting */
+    #scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50%
+      ), linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.02),
+        rgba(0, 255, 0, 0.01),
+        rgba(0, 0, 255, 0.02)
+      );
+      background-size: 100% 3px, 6px 100%;
+      opacity: 0.45;
+    }
+
+    /* Atmospheric Neon Ambient Glows */
+    .ambient-glow {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      opacity: 0.45;
+      animation: ambientPulse 14s ease-in-out infinite alternate;
+    }
+    .glow-cyan {
+      top: -150px;
+      left: 10%;
+      width: 600px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(0, 245, 255, 0.18) 0%, transparent 70%);
+    }
+    .glow-violet {
+      bottom: -150px;
+      right: 5%;
+      width: 700px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(139, 92, 255, 0.16) 0%, transparent 70%);
+      animation-delay: -5s;
+    }
+    .glow-magenta {
+      top: 40%;
+      left: 45%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 43, 214, 0.08) 0%, transparent 70%);
+      animation-delay: -9s;
+    }
+
+    @keyframes ambientPulse {
+      0% { transform: scale(1) translateY(0); opacity: 0.35; }
+      100% { transform: scale(1.15) translateY(20px); opacity: 0.55; }
+    }
+
+    /* High-tech Canvas Background (Geometric Grid & Cyber-Dust) */
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* ==========================================================================
+       APPLICATION SHELL LAYOUT
+       ========================================================================== */
+    #app {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       CYBERNETIC COMMAND SIDEBAR
+       ========================================================================== */
+    #sidebar {
+      width: 280px;
+      background: var(--surface-glass);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border-right: 1px solid rgba(0, 245, 255, 0.15);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 40;
+      box-shadow: 4px 0 35px rgba(0, 0, 0, 0.6);
+      transition: transform var(--t-base);
+    }
+
+    /* High-tech edge line & corner bracket accents */
+    #sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--cyan) 0%, rgba(139, 92, 255, 0.4) 50%, transparent 100%);
+      opacity: 0.7;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px 18px;
+      border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+      position: relative;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+
+    .logo-core {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--surface-3) 0%, var(--midnight) 100%);
+      border: 1px solid rgba(0, 245, 255, 0.5);
+      clip-path: var(--clip-btn);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.25), inset 0 0 12px rgba(0, 245, 255, 0.15);
+      transition: all var(--t-base);
+    }
+
+    .logo-container:hover .logo-core {
+      border-color: var(--cyan);
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.5), inset 0 0 18px rgba(0, 245, 255, 0.3);
+      transform: scale(1.04);
+    }
+
+    .logo-glyph {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+    }
+
+    .logo-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 0.12em;
+      color: var(--ghost);
+      line-height: 1.1;
+      text-shadow: 0 0 15px rgba(0, 245, 255, 0.4);
+    }
+
+    .brand-title span {
+      color: var(--cyan);
+      text-shadow: 0 0 18px var(--cyan);
+    }
+
+    .brand-tagline {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--steel);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    /* System Telemetry & Status Readout */
+    .hud-status-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 245, 255, 0.12);
+      padding: 8px 12px;
+      clip-path: var(--clip-card-sm);
+      position: relative;
+    }
+
+    .hud-status-strip::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--steel-dim);
+      transition: all var(--t-base);
+    }
+
+    .pulse-dot.online {
+      background: var(--green-neon);
+      box-shadow: 0 0 10px var(--green-neon);
+      animation: pulseNeon 2s infinite ease-in-out;
+    }
+
+    .pulse-dot.partial {
+      background: var(--amber);
+      box-shadow: 0 0 10px var(--amber);
+    }
+
+    .pulse-dot.offline {
+      background: var(--red-neon);
+      box-shadow: 0 0 10px var(--red-neon);
+    }
+
+    @keyframes pulseNeon {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .status-readout {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--chrome);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-chunks {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--cyan);
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+
+    /* Sidebar Content Sections */
+    .sidebar-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hud-label {
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--steel);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hud-label::before {
+      content: '//';
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+    }
+
+    /* Cyberpunk Toggle Switch Panel */
+    .control-panel-row {
+      background: rgba(14, 20, 40, 0.6);
+      border: 1px solid rgba(0, 245, 255, 0.12);
+      clip-path: var(--clip-card-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all var(--t-base);
+      position: relative;
+    }
+
+    .control-panel-row:hover {
+      border-color: rgba(0, 245, 255, 0.35);
+      background: rgba(14, 20, 40, 0.85);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.08);
+    }
+
+    .control-panel-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .control-panel-title {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 0.84rem;
+      color: var(--ghost);
+      letter-spacing: 0.05em;
+    }
+
+    .control-panel-sub {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--cyan);
+      letter-spacing: 0.04em;
+    }
+
+    /* Cyberpunk Switch Component */
+    .cyber-switch {
+      position: relative;
+      width: 46px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .cyber-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .cyber-slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      clip-path: var(--clip-btn);
+      cursor: pointer;
+      transition: all var(--t-base);
+    }
+
+    .cyber-slider::before {
+      content: '';
+      position: absolute;
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      top: 3px;
+      background: var(--steel-dim);
+      clip-path: var(--clip-card-sm);
+      transition: transform var(--t-base), background var(--t-base), box-shadow var(--t-base);
+    }
+
+    .cyber-switch input:checked + .cyber-slider {
+      background: rgba(0, 245, 255, 0.15);
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.25);
+    }
+
+    .cyber-switch input:checked + .cyber-slider::before {
+      transform: translateX(23px);
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .cyber-switch input:disabled + .cyber-slider {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Cyberpunk Action Buttons */
+    .cyber-action-btn {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 245, 255, 0.18);
+      color: var(--chrome);
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      clip-path: var(--clip-btn);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--t-base);
+    }
+
+    .cyber-action-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.18), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+
+    .cyber-action-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 245, 255, 0.08);
+      box-shadow: 0 0 18px rgba(0, 245, 255, 0.2);
+    }
+
+    .cyber-action-btn:hover::before {
+      transform: translateX(100%);
+    }
+
+    .cyber-action-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Technical Shortcuts HUD Box */
+    .hud-shortcuts {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      clip-path: var(--clip-card-sm);
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hud-shortcut-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--steel);
+    }
+
+    .hud-shortcut-line kbd {
+      background: rgba(0, 245, 255, 0.06);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      color: var(--cyan);
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-size: 0.6rem;
+    }
+
+    /* Telemetry Diagnostics Matrix */
+    .telemetry-box {
+      margin-top: auto;
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid rgba(0, 245, 255, 0.1);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--steel-dim);
+    }
+
+    .telemetry-val {
+      color: var(--cyan);
+    }
+
+    /* ==========================================================================
+       MAIN WORKSPACE AREA
+       ========================================================================== */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 0%, rgba(14, 20, 40, 0.6) 0%, var(--obsidian) 70%);
+      position: relative;
+    }
+
+    /* Top HUD Navigation Bar */
+    #topbar {
+      height: 52px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(11, 16, 32, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+      position: relative;
+      z-index: 20;
+    }
+
+    #topbar::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.15em;
+      color: var(--ghost);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-title-tag {
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    .hud-badge {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      clip-path: var(--clip-btn);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--t-base);
+    }
+
+    .hud-badge.ai-active {
+      background: rgba(0, 245, 255, 0.12);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.25);
+    }
+
+    .hud-badge.retrieval-mode {
+      background: rgba(255, 179, 0, 0.12);
+      border: 1px solid var(--amber);
+      color: var(--amber);
+    }
+
+    .hud-badge.offline-mode {
+      background: rgba(255, 51, 102, 0.12);
+      border: 1px solid var(--red-neon);
+      color: var(--red-neon);
+    }
+
+    /* Mobile Header Toggle */
+    #mobile-bar {
+      display: none;
+      height: 48px;
+      padding: 0 16px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-glass);
+      border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+      z-index: 50;
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: 1px solid rgba(0, 245, 255, 0.3);
+      color: var(--cyan);
+      padding: 5px 9px;
+      clip-path: var(--clip-card-sm);
+      font-family: var(--font-mono);
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       CHAT LOG & CONVERSATION CANVAS
+       ========================================================================== */
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 32px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      scroll-behavior: smooth;
+      position: relative;
+      z-index: 10;
+    }
+
+    #chat::-webkit-scrollbar {
+      width: 4px;
+    }
+    #chat::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #chat::-webkit-scrollbar-thumb {
+      background: rgba(0, 245, 255, 0.2);
+      border-radius: 2px;
+    }
+    #chat::-webkit-scrollbar-thumb:hover {
+      background: var(--cyan);
+    }
+
+    /* ==========================================================================
+       WELCOME HERO INTERFACE (Futuristic Gyro Core)
+       ========================================================================== */
+    #welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 820px;
+      margin: auto;
+      padding: 30px 16px;
+      animation: heroIn 0.8s var(--ease-cyber);
+    }
+
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 3D Holographic Gyro Core Animation */
+    .hologram-gyro-unit {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      perspective: 800px;
+    }
+
+    .gyro-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      pointer-events: none;
+    }
+
+    .gyro-ring-1 {
+      inset: 0;
+      border-top-color: var(--cyan);
+      border-bottom-color: var(--cyan);
+      box-shadow: 0 0 18px rgba(0, 245, 255, 0.4);
+      animation: spinRing1 7s linear infinite;
+    }
+
+    .gyro-ring-2 {
+      inset: 8px;
+      border-left-color: var(--violet);
+      border-right-color: var(--violet);
+      box-shadow: 0 0 16px rgba(139, 92, 255, 0.35);
+      animation: spinRing2 11s linear infinite reverse;
+    }
+
+    .gyro-ring-3 {
+      inset: 16px;
+      border-top-color: var(--magenta);
+      border-left-color: var(--magenta);
+      box-shadow: 0 0 14px rgba(255, 43, 214, 0.3);
+      animation: spinRing3 5s linear infinite;
+    }
+
+    @keyframes spinRing1 { to { transform: rotate3d(1, 1, 0, 360deg); } }
+    @keyframes spinRing2 { to { transform: rotate3d(0, 1, 1, 360deg); } }
+    @keyframes spinRing3 { to { transform: rotate3d(1, 0, 1, 360deg); } }
+
+    .gyro-center-core {
+      width: 52px;
+      height: 52px;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 245, 255, 0.4), var(--midnight));
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 13px;
+      color: var(--ghost);
+      text-shadow: 0 0 12px var(--cyan);
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.5), inset 0 0 15px rgba(0, 245, 255, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    .welcome-headline {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: 0.08em;
+      color: var(--ghost);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .welcome-headline span {
+      color: var(--cyan);
+      text-shadow: 0 0 25px rgba(0, 245, 255, 0.6);
+    }
+
+    .welcome-desc {
+      font-size: 0.95rem;
+      color: var(--steel);
+      max-width: 620px;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    /* Capabilities Matrix Grid */
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 28px;
+    }
+
+    .cap-matrix-card {
+      background: rgba(14, 20, 40, 0.55);
+      border: 1px solid rgba(0, 245, 255, 0.12);
+      clip-path: var(--clip-btn);
+      padding: 12px 14px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--t-base);
+    }
+
+    .cap-matrix-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--cyan);
+      opacity: 0.3;
+      transition: opacity var(--t-base);
+    }
+
+    .cap-matrix-card:hover {
+      background: rgba(14, 20, 40, 0.9);
+      border-color: rgba(0, 245, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 245, 255, 0.12);
+    }
+
+    .cap-matrix-card:hover::before {
+      opacity: 1;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .cap-card-code {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .cap-card-name {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--chrome);
+      letter-spacing: 0.04em;
+    }
+
+    /* Suggestion Query Chips */
+    .suggestions-header {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--steel-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .suggestions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      max-width: 760px;
+    }
+
+    .cyber-chip {
+      background: rgba(14, 20, 40, 0.6);
+      border: 1px solid rgba(0, 245, 255, 0.18);
+      color: var(--chrome);
+      padding: 7px 16px;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      clip-path: var(--clip-btn);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--t-base);
+      position: relative;
+    }
+
+    .cyber-chip::before {
+      content: '>_';
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+    }
+
+    .cyber-chip:hover {
+      background: rgba(0, 245, 255, 0.1);
+      border-color: var(--cyan);
+      color: var(--ghost);
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+    }
+
+    /* ==========================================================================
+       CONVERSATION MESSAGE FRAMES
+       ========================================================================== */
+    .msg-wrapper {
+      display: flex;
+      gap: 16px;
+      max-width: 900px;
+      width: 100%;
+      animation: msgReveal 0.35s var(--ease-cyber);
+    }
+
+    @keyframes msgReveal {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-wrapper.user {
+      flex-direction: row-reverse;
+      align-self: flex-end;
+    }
+
+    .msg-wrapper.bot {
+      align-self: flex-start;
+    }
+
+    .avatar-pod {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      clip-path: var(--clip-btn);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13px;
+      border: 1px solid transparent;
+      margin-top: 2px;
+    }
+
+    .user .avatar-pod {
+      background: linear-gradient(135deg, var(--surface-3), var(--midnight));
+      border-color: rgba(0, 245, 255, 0.4);
+      color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.15);
+    }
+
+    .bot .avatar-pod {
+      background: linear-gradient(135deg, rgba(139, 92, 255, 0.3), var(--midnight));
+      border-color: rgba(139, 92, 255, 0.45);
+      color: var(--violet);
+      box-shadow: 0 0 15px rgba(139, 92, 255, 0.2);
+    }
+
+    /* Cyber Bubble Enclosure */
+    .cyber-bubble {
+      flex: 1;
+      padding: 16px 20px;
+      position: relative;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      word-break: break-word;
+    }
+
+    .user .cyber-bubble {
+      background: rgba(0, 245, 255, 0.05);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      clip-path: var(--clip-chamfer-bot);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 245, 255, 0.03);
+      color: var(--ghost);
+    }
+
+    .bot .cyber-bubble {
+      background: rgba(11, 16, 32, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 245, 255, 0.15);
+      clip-path: var(--clip-chamfer-top);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .bot .cyber-bubble::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cyan) 0%, var(--violet) 60%, transparent 100%);
+    }
+
+    .cyber-bubble.error-bubble {
+      background: rgba(255, 51, 102, 0.08);
+      border-color: var(--red-neon);
+      color: #FFA5BA;
+    }
+
+    /* Message Meta Header */
+    .msg-hud-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--steel-dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .meta-led {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .meta-led.ai {
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .meta-led.kb {
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+    }
+
+    /* Markdown Formatted Typography */
+    .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--ghost);
+      margin: 16px 0 8px;
+      letter-spacing: 0.04em;
+    }
+    .markdown-body h1 { font-size: 1.15rem; color: var(--cyan); text-shadow: 0 0 10px rgba(0, 245, 255, 0.3); }
+    .markdown-body h2 { font-size: 1.05rem; color: var(--cyan); }
+    .markdown-body h3 { font-size: 0.95rem; color: var(--violet); }
+    .markdown-body p { margin-bottom: 12px; }
+    .markdown-body p:last-child { margin-bottom: 0; }
+    .markdown-body strong { color: var(--ghost); font-weight: 700; }
+    .markdown-body em { color: var(--steel); font-style: italic; }
+    
+    .markdown-body ul, .markdown-body ol {
+      margin: 8px 0 12px 20px;
+    }
+    .markdown-body ul { list-style: none; }
+    .markdown-body ul li {
+      position: relative;
+      padding-left: 14px;
+      margin-bottom: 6px;
+    }
+    .markdown-body ul li::before {
+      content: '▪';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-size: 0.9em;
+      top: -1px;
+    }
+    .markdown-body ol li { margin-bottom: 6px; }
+    .markdown-body ol li::marker { color: var(--cyan); font-family: var(--font-mono); }
+
+    .markdown-body blockquote {
+      border-left: 2px solid var(--violet);
+      background: rgba(139, 92, 255, 0.06);
+      padding: 8px 14px;
+      margin: 12px 0;
+      color: var(--steel);
+      font-style: italic;
+    }
+
+    .markdown-body code:not(.code-block-inner) {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: rgba(0, 245, 255, 0.08);
+      border: 1px solid rgba(0, 245, 255, 0.22);
+      color: var(--cyan);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    /* Cyberpunk Code Deck Block */
+    .cyber-code-deck {
+      margin: 14px 0;
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      clip-path: var(--clip-btn);
+      background: var(--code-bg);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .cyber-code-deck::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet), transparent);
+    }
+
+    .code-deck-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      background: rgba(14, 20, 40, 0.7);
+      border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+    }
+
+    .code-deck-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .code-deck-leds {
+      display: flex;
+      gap: 5px;
+    }
+
+    .code-deck-led {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    .led-red { background: var(--red-neon); }
+    .led-amber { background: var(--amber); }
+    .led-cyan { background: var(--cyan); }
+
+    .code-lang-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--steel);
+      text-transform: uppercase;
+      margin-left: 4px;
+    }
+
+    .copy-deck-btn {
+      background: rgba(0, 245, 255, 0.08);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 4px 10px;
+      clip-path: var(--clip-card-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--t-fast);
+    }
+
+    .copy-deck-btn:hover {
+      background: var(--cyan);
+      color: var(--obsidian);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .copy-deck-btn.copied {
+      background: var(--green-neon);
+      border-color: var(--green-neon);
+      color: var(--obsidian);
+    }
+
+    .cyber-code-deck pre {
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #E2E8F0;
+    }
+
+    .cyber-code-deck pre::-webkit-scrollbar {
+      height: 4px;
+    }
+    .cyber-code-deck pre::-webkit-scrollbar-thumb {
+      background: rgba(0, 245, 255, 0.25);
+    }
+
+    /* Code Syntax Highlighting Classes */
+    .hl-kw  { color: #FF2BD6; font-weight: 600; }  /* Keywords - Cyber Magenta */
+    .hl-bi  { color: #00F5FF; }                     /* Builtins - Electric Cyan */
+    .hl-fn  { color: #A78BFA; }                     /* Functions - Violet */
+    .hl-st  { color: #C6FF00; }                     /* Strings - Acid Lime */
+    .hl-cm  { color: #526078; font-style: italic; } /* Comments - Muted Steel */
+    .hl-num { color: #38BDF8; }                     /* Numbers */
+    .hl-dec { color: #F43F5E; }                     /* Decorators */
+    .hl-cls { color: #FDE047; }                     /* Classes */
+
+    /* Knowledge Sources & References Chips */
+    .sources-panel {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0, 245, 255, 0.1);
+    }
+
+    .sources-title {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--steel);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .sources-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .source-tag {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      color: var(--chrome);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 4px 10px;
+      clip-path: var(--clip-card-sm);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--t-fast);
+    }
+
+    .source-tag:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 245, 255, 0.08);
+    }
+
+    .source-score-badge {
+      font-size: 0.58rem;
+      color: var(--cyan);
+      background: var(--cyan-dim);
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    /* Knowledge Context Drawer */
+    .kb-drawer {
+      margin-top: 10px;
+    }
+
+    .kb-drawer summary {
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      color: var(--steel);
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 0;
+      transition: color var(--t-fast);
+    }
+
+    .kb-drawer summary:hover {
+      color: var(--cyan);
+    }
+
+    .kb-cards-wrap {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .kb-excerpt-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      clip-path: var(--clip-card-sm);
+      padding: 10px 14px;
+    }
+
+    .kb-excerpt-card h5 {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+
+    .kb-excerpt-card p {
+      font-size: 0.8rem;
+      color: var(--steel);
+      line-height: 1.6;
+    }
+
+    /* Quantum Thinking State Bubble */
+    .thinking-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+    }
+
+    .cyber-quantum-loader {
+      display: flex;
+      gap: 5px;
+    }
+
+    .cyber-quantum-loader span {
+      width: 6px;
+      height: 14px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      clip-path: var(--clip-card-sm);
+      animation: quantumWave 1.2s infinite ease-in-out;
+    }
+    .cyber-quantum-loader span:nth-child(2) { animation-delay: 0.2s; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+    .cyber-quantum-loader span:nth-child(3) { animation-delay: 0.4s; background: var(--magenta); box-shadow: 0 0 8px var(--magenta); }
+
+    @keyframes quantumWave {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+      50% { transform: scaleY(1.2); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       HIGH-TECH INPUT TERMINAL CONSOLE
+       ========================================================================== */
+    #input-console {
+      padding: 14px 32px 24px;
+      background: rgba(7, 8, 13, 0.95);
+      border-top: 1px solid rgba(0, 245, 255, 0.12);
+      position: relative;
+      z-index: 25;
+    }
+
+    #input-console::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 32px;
+      right: 32px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent);
+      opacity: 0.4;
+    }
+
+    .input-frame-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-terminal-box {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      background: rgba(14, 20, 40, 0.75);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      clip-path: var(--clip-chamfer);
+      padding: 6px 6px 6px 18px;
+      position: relative;
+      transition: all var(--t-base);
+    }
+
+    .input-terminal-box:focus-within {
+      border-color: var(--cyan);
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.2), inset 0 0 15px rgba(0, 245, 255, 0.05);
+    }
+
+    .terminal-prompt-glyph {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--cyan);
+      padding-bottom: 12px;
+      text-shadow: 0 0 8px var(--cyan);
+    }
+
+    #question-input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--ghost);
+      font-family: var(--font-body);
+      font-size: 0.94rem;
+      padding: 10px 0;
+      resize: none;
+      min-height: 42px;
+      max-height: 180px;
+      line-height: 1.55;
+      outline: none;
+    }
+
+    #question-input::placeholder {
+      color: var(--steel-dim);
+    }
+
+    #question-input::-webkit-scrollbar {
+      width: 3px;
+    }
+    #question-input::-webkit-scrollbar-thumb {
+      background: rgba(0, 245, 255, 0.3);
+    }
+
+    /* Futuristic Launch Trigger Button */
+    #send-action-btn {
+      width: 48px;
+      height: 44px;
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(0, 245, 255, 0.05) 100%);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      clip-path: var(--clip-btn);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      transition: all var(--t-base);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    #send-action-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--cyan);
+      opacity: 0;
+      transition: opacity var(--t-fast);
+    }
+
+    #send-action-btn:hover:not(:disabled) {
+      color: var(--obsidian);
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.5);
+    }
+
+    #send-action-btn:hover:not(:disabled)::before {
+      opacity: 1;
+    }
+
+    #send-action-btn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    #send-action-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      border-color: var(--steel-dim);
+    }
+
+    .send-icon-wrap {
+      position: relative;
+      z-index: 2;
+      line-height: 1;
+    }
+
+    /* Terminal HUD Status Footer */
+    .input-hud-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--steel-dim);
+      letter-spacing: 0.06em;
+    }
+
+    .input-hud-footer kbd {
+      background: rgba(0, 245, 255, 0.05);
+      border: 1px solid rgba(0, 245, 255, 0.15);
+      color: var(--cyan);
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+
+    #char-counter.warning {
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN (Desktop, Tablet, Mobile)
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .capabilities-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        position: fixed;
+        top: 48px;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        transform: translateX(-100%);
+        width: 80%;
+        max-width: 300px;
+      }
+      #sidebar.open {
+        transform: translateX(0);
+      }
+      #mobile-bar {
+        display: flex;
+      }
+      #topbar {
+        display: none;
+      }
+      #chat {
+        padding: 16px 14px 10px;
+        gap: 16px;
+      }
+      #input-console {
+        padding: 10px 14px 16px;
+      }
+      .capabilities-grid {
+        grid-template-columns: 1fr;
+      }
+      .welcome-headline {
+        font-size: 1.35rem;
+      }
+      .hologram-gyro-unit {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient CRT Scanline Overlay -->
+  <div id="scanlines" aria-hidden="true"></div>
+
+  <!-- Background Ambient Glow Orbs -->
+  <div class="ambient-glow glow-cyan" aria-hidden="true"></div>
+  <div class="ambient-glow glow-violet" aria-hidden="true"></div>
+  <div class="ambient-glow glow-magenta" aria-hidden="true"></div>
+
+  <!-- Matrix Background Canvas -->
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <div id="app">
+    <!-- Cybernetic Command Sidebar -->
+    <aside id="sidebar" aria-label="Control Matrix">
+      <div class="sidebar-header">
+        <div class="logo-container" id="logo-trigger" title="Reset View">
+          <div class="logo-core">
+            <span class="logo-glyph">PY</span>
+          </div>
+          <div class="logo-meta">
+            <h1 class="brand-title">PY<span>WISE</span></h1>
+            <div class="brand-tagline">Neural Assistant</div>
+          </div>
+        </div>
+
+        <div class="hud-status-strip" role="status" aria-live="polite">
+          <div class="pulse-dot" id="sys-status-dot"></div>
+          <span class="status-readout" id="sys-status-text">INITIALIZING...</span>
+          <span class="status-chunks" id="sys-chunk-count" style="display:none"></span>
+        </div>
+      </div>
+
+      <div class="sidebar-body">
+        <div>
+          <div class="hud-label">Protocol Settings</div>
+          <div class="control-panel-row" title="Toggle AI mode">
+            <div class="control-panel-info">
+              <span class="control-panel-title">AI Neural Mode</span>
+              <span class="control-panel-sub" id="llm-provider-sub">Gemini 2.5 Flash</span>
+            </div>
+            <label class="cyber-switch" title="Toggle grounded AI generation">
+              <input type="checkbox" id="ai-toggle-switch" checked>
+              <span class="cyber-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <div class="hud-label">Operations</div>
+          <button class="cyber-action-btn" id="new-protocol-btn" aria-label="Start new conversation session">
+            <span style="font-size:1.05rem;">⟳</span> New Protocol
+          </button>
+        </div>
+
+        <div>
+          <div class="hud-label">Terminal Bindings</div>
+          <div class="hud-shortcuts">
+            <div class="hud-shortcut-line"><span>Transmit</span> <kbd>Enter</kbd></div>
+            <div class="hud-shortcut-line"><span>New Line</span> <kbd>Shift+Enter</kbd></div>
+            <div class="hud-shortcut-line"><span>Focus Input</span> <kbd>/</kbd></div>
+            <div class="hud-shortcut-line"><span>Clear Memory</span> <kbd>Ctrl+K</kbd></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="telemetry-box">
+        <div class="telemetry-row"><span>RUNTIME</span> <span class="telemetry-val">Python 3.13</span></div>
+        <div class="telemetry-row"><span>RAG PIPELINE</span> <span class="telemetry-val">Hybrid BM25+Embed</span></div>
+        <div class="telemetry-row"><span>SECURITY PROTOCOL</span> <span class="telemetry-val">Server-Grounded</span></div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main id="main">
+      <!-- Mobile Bar -->
+      <div id="mobile-bar">
+        <button class="mobile-menu-btn" id="mobile-toggle-btn" aria-label="Toggle Navigation">☰ HUD</button>
+        <div style="font-family:var(--font-display);font-weight:700;color:var(--cyan);font-size:0.85rem;">PYWISE</div>
+        <span id="mobile-mode-badge" class="hud-badge ai-active" style="padding:2px 8px;font-size:0.6rem;">AI</span>
+      </div>
+
+      <!-- Topbar HUD Navigation -->
+      <header id="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            <span class="topbar-title-tag">// SYS.PY</span>
+            Python Q&A Intelligence Deck
+          </div>
+        </div>
+        <div class="topbar-right">
+          <span id="top-mode-badge" class="hud-badge ai-active">⚡ AI Mode Active</span>
+        </div>
+      </header>
+
+      <!-- Chat Canvas -->
+      <div id="chat" role="log" aria-live="polite">
+        <!-- Welcome Hero Interface -->
+        <div id="welcome">
+          <div class="hologram-gyro-unit" aria-hidden="true">
+            <div class="gyro-ring gyro-ring-1"></div>
+            <div class="gyro-ring gyro-ring-2"></div>
+            <div class="gyro-ring gyro-ring-3"></div>
+            <div class="gyro-center-core">PY</div>
+          </div>
+
+          <h2 class="welcome-headline">CYBERNETIC <span>PYTHON</span> INTELLIGENCE</h2>
+          <p class="welcome-desc">Query the comprehensive curated Python knowledge matrix with neural-grounded AI explanations. Inspect source documents, code architecture, and runtime telemetry.</p>
+
+          <div class="capabilities-grid">
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_01]</div>
+              <div class="cap-card-name">Syntax & Decorators</div>
+            </div>
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_02]</div>
+              <div class="cap-card-name">Concurrency & GIL</div>
+            </div>
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_03]</div>
+              <div class="cap-card-name">NumPy & Vectors</div>
+            </div>
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_04]</div>
+              <div class="cap-card-name">Pandas Dataframes</div>
+            </div>
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_05]</div>
+              <div class="cap-card-name">Exception Hierarchy</div>
+            </div>
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_06]</div>
+              <div class="cap-card-name">OOP & Metaclasses</div>
+            </div>
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_07]</div>
+              <div class="cap-card-name">Testing with pytest</div>
+            </div>
+            <div class="cap-matrix-card">
+              <div class="cap-card-code">[MOD_08]</div>
+              <div class="cap-card-name">PEP 8 & Clean Code</div>
+            </div>
+          </div>
+
+          <div class="suggestions-header">// RECOMMENDED ACCESS VECTORS</div>
+          <div class="suggestions-row" role="list">
+            <button class="cyber-chip" data-q="How do Python decorators work behind the scenes?" role="listitem">How do decorators work?</button>
+            <button class="cyber-chip" data-q="What is the difference between a list and a tuple in memory?" role="listitem">List vs Tuple memory?</button>
+            <button class="cyber-chip" data-q="Explain Python generators and yield with an example" role="listitem">Generators & yield</button>
+            <button class="cyber-chip" data-q="How do I read and filter a CSV file with pandas?" role="listitem">Filter CSV with pandas</button>
+            <button class="cyber-chip" data-q="What is Python's GIL and how does it affect threads?" role="listitem">Python's GIL explained</button>
+            <button class="cyber-chip" data-q="How does Python exception handling work with try, except, finally?" role="listitem">Exception handling</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- High-tech Input Terminal Console -->
+      <footer id="input-console">
+        <div class="input-frame-wrapper">
+          <div class="input-terminal-box">
+            <span class="terminal-prompt-glyph">>_</span>
+            <textarea id="question-input" rows="1" placeholder="Enter Python query to execute analysis..." maxlength="4000" aria-label="Input Python question"></textarea>
+            <button id="send-action-btn" aria-label="Transmit Query" title="Transmit Query">
+              <span class="send-icon-wrap">↑</span>
+            </button>
+          </div>
+          <div class="input-hud-footer">
+            <span>TRANSMIT // <kbd>Enter</kbd> &nbsp;·&nbsp; LINE // <kbd>Shift+Enter</kbd> &nbsp;·&nbsp; FOCUS // <kbd>/</kbd></span>
+            <span id="char-counter">0 / 4000</span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Application Logic & Cyberpunk Matrix Canvas -->
+  <script>
+    'use strict';
+
+    /* ==========================================================================
+       CYBER MATRIX CANVAS BACKGROUND
+       ========================================================================== */
+    (function initMatrixCanvas() {
+      const canvas = document.getElementById('matrix-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h, particles = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      for (let i = 0; i < 45; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          size: Math.random() * 2 + 1,
+          color: Math.random() > 0.5 ? 'rgba(0, 245, 255, ' : 'rgba(139, 92, 255, '
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        
+        // Draw subtle cyber grid
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.025)';
+        ctx.lineWidth = 1;
+        const gridSize = 48;
+        for (let x = 0; x < w; x += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, h);
+          ctx.stroke();
+        }
+        for (let y = 0; y < h; y += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+          ctx.stroke();
+        }
+
+        // Particles
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = w;
+          if (p.x > w) p.x = 0;
+          if (p.y < 0) p.y = h;
+          if (p.y > h) p.y = 0;
+
+          ctx.fillStyle = p.color + '0.45)';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* ==========================================================================
+       CHATBOT CLIENT LOGIC & SERVER BINDINGS
+       ========================================================================== */
+    let currentSessionId = null;
+    let isRequestPending = false;
+    let isLlmAvailable = false;
+    let activeLlmProviderName = 'Gemini';
+
+    // DOM Elements
+    const $chat = document.getElementById('chat');
+    const $welcome = document.getElementById('welcome');
+    const $questionInput = document.getElementById('question-input');
+    const $sendBtn = document.getElementById('send-action-btn');
+    const $newProtocolBtn = document.getElementById('new-protocol-btn');
+    const $aiToggle = document.getElementById('ai-toggle-switch');
+    const $providerSub = document.getElementById('llm-provider-sub');
+    const $sysDot = document.getElementById('sys-status-dot');
+    const $sysText = document.getElementById('sys-status-text');
+    const $sysChunks = document.getElementById('sys-chunk-count');
+    const $topBadge = document.getElementById('top-mode-badge');
+    const $mobileBadge = document.getElementById('mobile-mode-badge');
+    const $charCounter = document.getElementById('char-counter');
+    const $mobileToggleBtn = document.getElementById('mobile-toggle-btn');
+    const $sidebar = document.getElementById('sidebar');
+
+    // Mobile sidebar toggle
+    if ($mobileToggleBtn && $sidebar) {
+      $mobileToggleBtn.addEventListener('click', () => {
+        $sidebar.classList.toggle('open');
+      });
+    }
+
+    // Badge styling updater
+    function updateModeBadges(text, modeClass) {
+      if ($topBadge) {
+        $topBadge.textContent = text;
+        $topBadge.className = 'hud-badge ' + modeClass;
+      }
+      if ($mobileBadge) {
+        $mobileBadge.textContent = text.split(' ')[0] || 'AI';
+        $mobileBadge.className = 'hud-badge ' + modeClass;
+      }
+    }
+
+    // Health Check & Runtime State
+    async function inspectSystemHealth() {
+      try {
+        const res = await fetch('/health');
+        const data = await res.json();
+        
+        isLlmAvailable = !!data.llm_available;
+        activeLlmProviderName = data.llm_provider || 'Gemini';
+        if (activeLlmProviderName.toLowerCase().includes('gemini')) {
+          activeLlmProviderName = 'Gemini Flash';
+        }
+
+        $aiToggle.disabled = !isLlmAvailable;
+        if (isLlmAvailable) {
+          $sysDot.className = 'pulse-dot online';
+          $sysText.textContent = 'ONLINE // AI + KB READY';
+          $providerSub.textContent = `Active · ${activeLlmProviderName}`;
+          updateModeBadges('⚡ AI Mode Active', 'ai-active');
+        } else {
+          $sysDot.className = 'pulse-dot partial';
+          $sysText.textContent = 'RETRIEVAL ONLY';
+          $providerSub.textContent = 'Knowledge Base Fallback';
+          $aiToggle.checked = false;
+          updateModeBadges('📚 Retrieval Mode', 'retrieval-mode');
+        }
+
+        if (data.chunks > 0) {
+          $sysChunks.textContent = `${data.chunks} CHUNKS`;
+          $sysChunks.style.display = 'inline-block';
+        }
+      } catch (err) {
+        $sysDot.className = 'pulse-dot offline';
+        $sysText.textContent = 'SYS OFFLINE';
+        updateModeBadges('⚠ Offline', 'offline-mode');
+      }
+    }
+
+    // Update Mode when toggle changed
+    $aiToggle.addEventListener('change', () => {
+      if ($aiToggle.checked && isLlmAvailable) {
+        updateModeBadges('⚡ AI Mode Active', 'ai-active');
+        $providerSub.textContent = `Active · ${activeLlmProviderName}`;
+      } else {
+        updateModeBadges('📚 Retrieval Mode', 'retrieval-mode');
+        $providerSub.textContent = 'Direct Knowledge Retrieval';
+      }
+    });
+
+    inspectSystemHealth();
+
+    // Auto-resizing input textarea
+    function adjustInputHeight() {
+      $questionInput.style.height = 'auto';
+      $questionInput.style.height = Math.min($questionInput.scrollHeight, 180) + 'px';
+    }
+
+    $questionInput.addEventListener('input', () => {
+      const len = $questionInput.value.length;
+      $charCounter.textContent = `${len} / 4000`;
+      if (len > 3500) {
+        $charCounter.classList.add('warning');
+      } else {
+        $charCounter.classList.remove('warning');
+      }
+      adjustInputHeight();
+    });
+
+    // Keydown handlers
+    $questionInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!isRequestPending) transmitQuery();
+      }
+    });
+
+    $sendBtn.addEventListener('click', () => {
+      if (!isRequestPending) transmitQuery();
+    });
+
+    // Global Keybindings
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== $questionInput && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        $questionInput.focus();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        resetProtocol();
+      }
+    });
+
+    // Suggestion chips click
+    document.querySelectorAll('.cyber-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        $questionInput.value = chip.dataset.q;
+        adjustInputHeight();
+        $questionInput.focus();
+        transmitQuery();
+      });
+    });
+
+    // Reset Protocol / Clear Conversation
+    async function resetProtocol() {
+      if (currentSessionId) {
+        try {
+          await fetch('/api/chat/clear', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_id: currentSessionId })
+          });
+        } catch (_) {}
+        currentSessionId = null;
+      }
+      $chat.innerHTML = '';
+      $chat.appendChild($welcome);
+      $welcome.style.display = 'flex';
+      if ($sidebar) $sidebar.classList.remove('open');
+    }
+    $newProtocolBtn.addEventListener('click', resetProtocol);
+
+    // Escape HTML helper
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Syntax Highlighter for Python Code
+    function highlightPython(code) {
+      const markers = [];
+      function stash(html) {
+        const id = `__STASH_${markers.length}__`;
+        markers.push(html);
+        return id;
+      }
+
+      // Strings
+      code = code.replace(/("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, m => {
+        return stash(`<span class="hl-st">${escapeHtml(m)}</span>`);
+      });
+
+      // Comments
+      code = code.replace(/(#[^\n]*)/g, m => {
+        return stash(`<span class="hl-cm">${escapeHtml(m)}</span>`);
+      });
+
+      // Decorators
+      code = code.replace(/(@[\w.]+)/g, m => {
+        return stash(`<span class="hl-dec">${escapeHtml(m)}</span>`);
+      });
+
+      // Classes & Defs
+      code = code.replace(/\b(class)\s+([A-Za-z_]\w*)/g, (_, kw, name) => {
+        return stash(`<span class="hl-kw">${kw}</span> <span class="hl-cls">${name}</span>`);
+      });
+      code = code.replace(/\b(def)\s+([A-Za-z_]\w*)/g, (_, kw, name) => {
+        return stash(`<span class="hl-kw">${kw}</span> <span class="hl-fn">${name}</span>`);
+      });
+
+      // Keywords
+      const keywords = /\b(False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\b/g;
+      code = code.replace(keywords, m => stash(`<span class="hl-kw">${m}</span>`));
+
+      // Builtins
+      const builtins = /\b(abs|all|any|bin|bool|dict|enumerate|filter|float|format|getattr|hasattr|id|input|int|isinstance|issubclass|iter|len|list|map|max|min|next|object|open|print|range|repr|reversed|round|set|slice|sorted|str|sum|super|tuple|type|zip)\b/g;
+      code = code.replace(builtins, m => stash(`<span class="hl-bi">${m}</span>`));
+
+      // Numbers
+      code = code.replace(/\b(\d+\.?\d*|0[xX][0-9a-fA-F]+)\b/g, m => stash(`<span class="hl-num">${m}</span>`));
+
+      // Unstash all
+      for (let i = markers.length - 1; i >= 0; i--) {
+        code = code.replace(`__STASH_${i}__`, markers[i]);
+      }
+
+      return code;
+    }
+
+    // Markdown Parser
+    function parseCyberMarkdown(markdown) {
+      const codeBlocks = [];
+
+      // Extract code blocks
+      let text = markdown.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+        const id = codeBlocks.length;
+        codeBlocks.push({ lang: lang || 'python', code: code.trim() });
+        return `\x00CODE_${id}\x00`;
+      });
+
+      // Inline codes
+      const inlineCodes = [];
+      text = text.replace(/`([^`\n]+)`/g, (_, c) => {
+        const id = inlineCodes.length;
+        inlineCodes.push(escapeHtml(c));
+        return `\x00INLINE_${id}\x00`;
+      });
+
+      // HTML Escape body
+      text = escapeHtml(text);
+
+      // Restore inline code
+      text = text.replace(/\x00INLINE_(\d+)\x00/g, (_, i) => `<code>${inlineCodes[i]}</code>`);
+
+      // Restore code blocks with deck wrap
+      text = text.replace(/\x00CODE_(\d+)\x00/g, (_, i) => {
+        const { lang, code } = codeBlocks[i];
+        const blockId = `code-block-${Date.now()}-${i}`;
+        const isPy = lang.toLowerCase() === 'python' || lang.toLowerCase() === 'py';
+        const highlighted = isPy ? highlightPython(code) : escapeHtml(code);
+
+        return `
+          <div class="cyber-code-deck">
+            <div class="code-deck-header">
+              <div class="code-deck-title">
+                <div class="code-deck-leds">
+                  <div class="code-deck-led led-red"></div>
+                  <div class="code-deck-led led-amber"></div>
+                  <div class="code-deck-led led-cyan"></div>
+                </div>
+                <span class="code-lang-label">${escapeHtml(lang.toUpperCase())}</span>
+              </div>
+              <button class="copy-deck-btn" onclick="copyDeckCode(this, '${blockId}')">
+                <span>⎘</span> Copy Deck
+              </button>
+            </div>
+            <pre><code id="${blockId}" class="code-block-inner">${highlighted}</code></pre>
+          </div>
+        `;
+      });
+
+      // Headers
+      text = text.replace(/^#### (.+)$/gm, '<h4>$1</h4>')
+                 .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                 .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                 .replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+      // Quotes, dividers, bold, italics
+      text = text.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
+                 .replace(/^---+$/gm, '<hr style="border:none;border-top:1px solid rgba(0,245,255,0.15);margin:14px 0;">')
+                 .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                 .replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Unordered lists
+      text = text.replace(/((?:^[-*] .+\n?)+)/gm, block => {
+        const items = block.trim().split('\n')
+          .map(l => l.replace(/^[-*] /, '').trim())
+          .filter(Boolean)
+          .map(i => `<li>${i}</li>`)
+          .join('');
+        return `<ul>${items}</ul>`;
+      });
+
+      // Ordered lists
+      text = text.replace(/((?:^\d+\. .+\n?)+)/gm, block => {
+        const items = block.trim().split('\n')
+          .map(l => l.replace(/^\d+\. /, '').trim())
+          .filter(Boolean)
+          .map(i => `<li>${i}</li>`)
+          .join('');
+        return `<ol>${items}</ol>`;
+      });
+
+      // Paragraphs
+      const chunks = text.split(/\n{2,}/);
+      const out = chunks.map(chunk => {
+        chunk = chunk.trim();
+        if (!chunk) return '';
+        if (/^<(h[1-6]|ul|ol|table|blockquote|div|hr|pre)/.test(chunk)) return chunk;
+        return `<p>${chunk.replace(/\n/g, '<br>')}</p>`;
+      }).join('\n');
+
+      return out;
+    }
+
+    // Global copy code callback
+    window.copyDeckCode = function(button, elementId) {
+      const codeEl = document.getElementById(elementId);
+      if (!codeEl) return;
+      navigator.clipboard.writeText(codeEl.innerText).then(() => {
+        button.classList.add('copied');
+        button.innerHTML = '<span>✓</span> Copied';
+        setTimeout(() => {
+          button.classList.remove('copied');
+          button.innerHTML = '<span>⎘</span> Copy Deck';
+        }, 2200);
+      });
+    };
+
+    // Render Message Frame in Chat
+    function appendMessage(role, content, { sources = [], kbContext = [], isError = false, llmUsed = false } = {}) {
+      $welcome.style.display = 'none';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = `msg-wrapper ${role}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar-pod';
+      avatar.textContent = role === 'user' ? 'USR' : 'PY';
+
+      const bubble = document.createElement('div');
+      bubble.className = `cyber-bubble ${isError ? 'error-bubble' : ''}`;
+
+      if (role === 'bot' && !isError) {
+        const meta = document.createElement('div');
+        meta.className = 'msg-hud-meta';
+        const led = document.createElement('div');
+        led.className = `meta-led ${llmUsed ? 'ai' : 'kb'}`;
+        meta.appendChild(led);
+        meta.appendChild(document.createTextNode(
+          llmUsed ? `NEURAL GROUNDED // ${activeLlmProviderName.toUpperCase()}` : 'CURATED KNOWLEDGE BASE RETRIEVAL'
+        ));
+        bubble.appendChild(meta);
+      }
+
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'markdown-body';
+      if (role === 'user') {
+        bodyEl.textContent = content;
+      } else if (isError) {
+        bodyEl.textContent = content;
+      } else {
+        bodyEl.innerHTML = parseCyberMarkdown(content);
+      }
+      bubble.appendChild(bodyEl);
+
+      // Sources
+      if (sources && sources.length > 0) {
+        const sourcesWrap = document.createElement('div');
+        sourcesWrap.className = 'sources-panel';
+        const stitle = document.createElement('div');
+        stitle.className = 'sources-title';
+        stitle.textContent = `// Verified Vectors (${sources.length})`;
+        sourcesWrap.appendChild(stitle);
+
+        const sflex = document.createElement('div');
+        sflex.className = 'sources-flex';
+        sources.forEach(s => {
+          const stag = document.createElement('div');
+          stag.className = 'source-tag';
+          const srcName = (s.source || '').split('/').pop().replace('.md', '');
+          const head = s.heading ? ` › ${s.heading}` : '';
+          stag.innerHTML = `${escapeHtml(srcName + head)} <span class="source-score-badge">${s.score}</span>`;
+          sflex.appendChild(stag);
+        });
+        sourcesWrap.appendChild(sflex);
+        bubble.appendChild(sourcesWrap);
+      }
+
+      // KB Context Drawer
+      if (role === 'bot' && kbContext && kbContext.length > 0) {
+        const drawer = document.createElement('details');
+        drawer.className = 'kb-drawer';
+        const summary = document.createElement('summary');
+        summary.textContent = `// Knowledge Excerpts (${kbContext.length})`;
+        drawer.appendChild(summary);
+
+        const cardWrap = document.createElement('div');
+        cardWrap.className = 'kb-cards-wrap';
+        kbContext.forEach(k => {
+          const card = document.createElement('div');
+          card.className = 'kb-excerpt-card';
+          const h5 = document.createElement('h5');
+          h5.textContent = `${k.heading || 'Python Matrix'} // ${(k.source || '').split('/').pop()}`;
+          const p = document.createElement('p');
+          p.textContent = k.text || '';
+          card.appendChild(h5);
+          card.appendChild(p);
+          cardWrap.appendChild(card);
+        });
+        drawer.appendChild(cardWrap);
+        bubble.appendChild(drawer);
+      }
+
+      wrapper.appendChild(avatar);
+      wrapper.appendChild(bubble);
+      $chat.appendChild(wrapper);
+      $chat.scrollTop = $chat.scrollHeight;
+      return wrapper;
+    }
+
+    // Display Quantum Thinking Indicator
+    function showThinkingState() {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'msg-wrapper bot';
+      wrapper.id = 'thinking-indicator';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar-pod';
+      avatar.textContent = 'PY';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'cyber-bubble';
+      bubble.innerHTML = `
+        <div class="thinking-card">
+          <div class="cyber-quantum-loader">
+            <span></span><span></span><span></span>
+          </div>
+          SYNTHESIZING NEURAL RESPONSE...
+        </div>
+      `;
+
+      wrapper.appendChild(avatar);
+      wrapper.appendChild(bubble);
+      $chat.appendChild(wrapper);
+      $chat.scrollTop = $chat.scrollHeight;
+    }
+
+    function removeThinkingState() {
+      const ind = document.getElementById('thinking-indicator');
+      if (ind) ind.remove();
+    }
+
+    // Transmit User Question to API
+    async function transmitQuery() {
+      const q = $questionInput.value.trim();
+      if (!q || isRequestPending) return;
+
+      isRequestPending = true;
+      $sendBtn.disabled = true;
+      $sendBtn.innerHTML = '<span class="send-icon-wrap" style="animation:pulseNeon 1s infinite">⋯</span>';
+
+      appendMessage('user', q);
+      $questionInput.value = '';
+      $questionInput.style.height = 'auto';
+      $charCounter.textContent = '0 / 4000';
+
+      showThinkingState();
+
+      try {
+        const useLlm = $aiToggle.checked && isLlmAvailable;
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question: q,
+            session_id: currentSessionId,
+            top_k: 5,
+            use_llm: useLlm
+          })
+        });
+
+        removeThinkingState();
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          appendMessage('bot', `⚠️ Protocol Error (${res.status}): ${err.detail || 'Service anomaly detected.'}`, { isError: true });
+          return;
+        }
+
+        const data = await res.json();
+        currentSessionId = data.session_id;
+
+        let answer = data.answer || '';
+        if (data.llm_error) {
+          answer += `\n\n> ⚠️ Neural generator unavailable: ${data.llm_error}. Fallback knowledge excerpts provided.`;
+        }
+
+        appendMessage('bot', answer, {
+          sources: data.sources || [],
+          kbContext: data.knowledge_context || [],
+          llmUsed: !!data.llm_used
+        });
+
+      } catch (err) {
+        removeThinkingState();
+        appendMessage('bot', `⚠️ Transmission link failure: ${err.message}. Check host status.`, { isError: true });
+      } finally {
+        isRequestPending = false;
+        $sendBtn.disabled = false;
+        $sendBtn.innerHTML = '<span class="send-icon-wrap">↑</span>';
+        $questionInput.focus();
+      }
+    }
+  </script>
+</body>
+</html>
