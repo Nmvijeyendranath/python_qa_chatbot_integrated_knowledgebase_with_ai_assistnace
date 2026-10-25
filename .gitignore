@@ -26,8 +26,6 @@ build/
 *.env
 secrets.json
 
-# Generated index (regenerate via ingest command)
-data/index.json
 
 # macOS / Windows
 .DS_Store
